@@ -10,26 +10,46 @@ namespace poker
         private static int _straightCount;
         private static int _straightCountMax;
         private static CardValue _straightCountMaxCardValue;
+        private static int _straightFlushCount;
+        private static int _straightFlushCountMax;
+        private static CardValue _straightFlushCountMaxCardValue;
+        private static int _numberOfPairs;
+        private static int _numberOfTripples;
+        private static Rank _calculatedRank;
         private static Dictionary<CardValue, int> _sets;
-
-        private static Rank _rank;
-
         private static List<Card> _cards;
         private static List<Card> _bestHandCards;
+        private static List<Card> _straightFlushCards;
+        private static List<Card> _flushCards;
+        private static List<Card> _straightCards;
+        private static List<Card[]> _pairs;
+        private static List<Card[]> _tripples;
+        private static Card[] _bestPair;
+        private static Card[] _bestTripple;
 
         public static RankedHand EvaluateHand(Card[] cards)
         {
             _straightCount = 1;
             _straightCountMax = 0;
-            _rank = Rank.HighCard;
             _straightCountMaxCardValue = (CardValue)0;
-
+            _straightFlushCount = 1;
+            _straightFlushCountMax = 0;
+            _straightFlushCountMaxCardValue = (CardValue)0;
+            _numberOfPairs = 0;
+            _numberOfTripples = 0;
+            _calculatedRank = Rank.HighCard;
             _sets = new Dictionary<CardValue, int>();
-
             _cards = new List<Card>(cards);
-            List<Card> flushCards = new List<Card>();
-            List<Card> straightCards = new List<Card>();
             _bestHandCards = new List<Card>();
+            _straightFlushCards = new List<Card>();
+            _flushCards = new List<Card>();
+            _straightCards = new List<Card>();
+            _pairs = new List<Card[]>();
+            _tripples = new List<Card[]>();
+            _bestPair = null;
+            _bestTripple = null;
+
+            // lowest to highest card value
             _cards = _cards.OrderBy(o => o.Value).ToList();
 
             for (int i = 0; i < _cards.Count - 1; i++)
@@ -53,176 +73,163 @@ namespace poker
                     if (_straightCount > _straightCountMax)
                     {
                         _straightCountMax = _straightCount;
-                        straightCards.Add(_cards[i]);
-                        while (straightCards.Count > 5) straightCards.RemoveAt(0);
+                        _straightCards.Add(_cards[i]);
+                        while (_straightCards.Count > 5) _straightCards.RemoveAt(0);
                     }
                     _straightCountMaxCardValue = _cards[i + 1].Value;
                 }
                 else if (_cards[i].Value != _cards[i + 1].Value) // account for sets within the straight
                 {
-                    if (_straightCount != 5) straightCards.Clear();
+                    if (_straightCount != 5) _straightCards.Clear();
                     _straightCount = 1;
                     _straightCountMaxCardValue = _cards[i + 1].Value;
                 }
             }
 
-            List<Card> straightFlushCards = new List<Card>();
             foreach (CardSuit suit in Enum.GetValues(typeof(CardSuit)))
             {
-                flushCards = _cards.Where(o => o.Suit == suit).OrderBy(p => p.Value).ToList();
+                _flushCards = _cards.Where(o => o.Suit == suit).OrderBy(p => p.Value).ToList();
 
-                if (flushCards.Count >= 5)
+                if (_flushCards.Count >= 5)
                 {
-                    int straightFlushCount = 1;
-                    CardValue straightFlushCountMaxCardValue = 0;
-                    int straightFlushCountMax = 0;
-
-                    for (int i = 0; i < flushCards.Count - 1; i++)
+                    for (int i = 0; i < _flushCards.Count - 1; i++)
                     {
-                        if ((int)flushCards[i].Value == (int)flushCards[i + 1].Value - 1 ||
-                            (flushCards[i].Value == CardValue.King && flushCards[i + 1].Value == CardValue.Ace) ||
-                            (straightFlushCountMaxCardValue == CardValue.Five && straightFlushCount == 4 && flushCards[i + 1].Value == CardValue.Ace)
+                        if ((int)_flushCards[i].Value == (int)_flushCards[i + 1].Value - 1 ||
+                            (_flushCards[i].Value == CardValue.King && _flushCards[i + 1].Value == CardValue.Ace) ||
+                            (_straightFlushCountMaxCardValue == CardValue.Five && _straightFlushCount == 4 && _flushCards[i + 1].Value == CardValue.Ace)
                             )
                         {
-                            straightFlushCount++;
+                            _straightFlushCount++;
 
-                            straightFlushCards.Add(_cards[i]);
-                            while (straightFlushCards.Count > 5) straightFlushCards.RemoveAt(0);
-                            if (straightFlushCount > straightFlushCountMax) straightFlushCountMax = straightFlushCount;
-                            straightFlushCountMaxCardValue = flushCards[i + 1].Value;
+                            _straightFlushCards.Add(_cards[i]);
+                            while (_straightFlushCards.Count > 5) _straightFlushCards.RemoveAt(0);
+                            if (_straightFlushCount > _straightFlushCountMax) _straightFlushCountMax = _straightFlushCount;
+                            _straightFlushCountMaxCardValue = _flushCards[i + 1].Value;
                         }
                     }
 
-                    if (straightFlushCountMax >= 5)
+                    if (_straightFlushCountMax >= 5)
                     {
-                        if (straightFlushCountMaxCardValue == CardValue.Ace)
+                        if (_straightFlushCountMaxCardValue == CardValue.Ace)
                         {
                             // Royal Flush
-                            _bestHandCards = straightFlushCards.ToList();
-                            _rank = Rank.RoyalFlush;
+                            _bestHandCards = _straightFlushCards.ToList();
+                            _calculatedRank = Rank.RoyalFlush;
                         }
                         else
                         {
                             // Straight Flush
-                            _bestHandCards = straightFlushCards.ToList();
-                            _rank = Rank.StraightFlush;
+                            _bestHandCards = _straightFlushCards.ToList();
+                            _calculatedRank = Rank.StraightFlush;
                         }
                     }
                     else
                     {
                         // Flush
-                        if ((int)_rank < (int)Rank.Flush)
+                        if ((int)_calculatedRank < (int)Rank.Flush)
                         {
-                            _bestHandCards = flushCards.Skip(flushCards.Count - 5).ToList();
-                            _rank = Rank.Flush;
+                            _bestHandCards = _flushCards.Skip(_flushCards.Count - 5).ToList();
+                            _calculatedRank = Rank.Flush;
                         }
                     }
                 }
             }
 
-            // Straights
+            // Straight
             if (_straightCountMax >= 5)
             {
-                // Straight
-                if ((int)_rank < (int)Rank.Straight)
+                if ((int)_calculatedRank < (int)Rank.Straight)
                 {
-                    _bestHandCards = straightCards.Skip(straightCards.Count - 5).ToList();
-                    _rank = Rank.Straight;
+                    _bestHandCards = _straightCards.Skip(_straightCards.Count - 5).ToList();
+                    _calculatedRank = Rank.Straight;
                 }
             }
 
             // Sets
-            int numberOfPairs = 0;
-            int numberOfTripples = 0;
-            List<Card[]> pairs = new List<Card[]>();
-            List<Card[]> tripples = new List<Card[]>();
-            Card[] bestPair = null;
-            Card[] bestTripple = null;
-
             foreach (KeyValuePair<CardValue, int> set in _sets)
             {
                 if (set.Value == 4)
                 {
                     // four of a kind
-                    if ((int)_rank < (int)Rank.FourOfAKind)
+                    if ((int)_calculatedRank < (int)Rank.FourOfAKind)
                     {
                         _bestHandCards = _cards.Where(o=>o.Value == set.Key).ToList();
-                        _rank = Rank.FourOfAKind;
+                        _calculatedRank = Rank.FourOfAKind;
                     }
                 }
                 else if (set.Value == 3)
                 {
                     // three of a kind
-                    numberOfTripples++;
-                    tripples.Add(_cards.Where(o => o.Value == set.Key).ToArray());
-                    if ((int)_rank < (int)Rank.ThreeOfAKind)
+                    _numberOfTripples++;
+                    _tripples.Add(_cards.Where(o => o.Value == set.Key).ToArray());
+                    if ((int)_calculatedRank < (int)Rank.ThreeOfAKind)
                     {
                         _bestHandCards = _cards.Where(o => o.Value == set.Key).ToList();
-                        _rank = Rank.ThreeOfAKind;
+                        _calculatedRank = Rank.ThreeOfAKind;
                     }
                 }
                 else if (set.Value == 2)
                 {
                     // pair
-                    numberOfPairs++;
-                    pairs.Add(_cards.Where(o => o.Value == set.Key).ToArray());
-                    if ((int)_rank < (int)Rank.Pair)
+                    _numberOfPairs++;
+                    _pairs.Add(_cards.Where(o => o.Value == set.Key).ToArray());
+                    if ((int)_calculatedRank < (int)Rank.Pair)
                     {
                         _bestHandCards = _cards.Where(o => o.Value == set.Key).ToList();
-                        _rank = Rank.Pair;
+                        _calculatedRank = Rank.Pair;
                     }
                 }
             }
 
-            if (pairs.Count == 1) bestPair = pairs[0];
+            if (_pairs.Count == 1) _bestPair = _pairs[0];
             else
             {
-                foreach (Card[] pair in pairs)
+                foreach (Card[] pair in _pairs)
                 {
-                    if (bestPair == null || pair[0].Value > bestPair[0].Value) bestPair = pair;
+                    if (_bestPair == null || pair[0].Value > _bestPair[0].Value) _bestPair = pair;
                 }
             }
-            if (tripples.Count == 1) bestTripple = tripples[0];
+            if (_tripples.Count == 1) _bestTripple = _tripples[0];
             else
             {
-                foreach (Card[] tripple in tripples)
+                foreach (Card[] tripple in _tripples)
                 {
-                    if (bestTripple == null || tripple[0].Value > bestTripple[0].Value) bestTripple = tripple;
+                    if (_bestTripple == null || tripple[0].Value > _bestTripple[0].Value) _bestTripple = tripple;
                 }
             }
 
             // full house
-            if (numberOfTripples >= 1 && numberOfPairs >= 1)
+            if (_numberOfTripples >= 1 && _numberOfPairs >= 1)
             {
                 
-                if ((int)_rank < (int)Rank.FullHouse)
+                if ((int)_calculatedRank < (int)Rank.FullHouse)
                 {
-                    _bestHandCards = bestPair.Concat(bestTripple).ToList();
-                    _rank = Rank.FullHouse;
+                    _bestHandCards = _bestPair.Concat(_bestTripple).ToList();
+                    _calculatedRank = Rank.FullHouse;
                 }
             }
-            // two pair
 
-            if (numberOfPairs >= 2)
+            // two pair
+            if (_numberOfPairs >= 2)
             {
                 Card[] secondBestPair = null;
-                foreach (Card[] pair in pairs)
+                foreach (Card[] pair in _pairs)
                 {
-                    if (secondBestPair == null && pair != bestPair) secondBestPair = pair;
-                    else if (pair[0].Value > secondBestPair[0].Value && pair != bestPair) secondBestPair = pair;
+                    if (secondBestPair == null && pair != _bestPair) secondBestPair = pair;
+                    else if (pair[0].Value > secondBestPair[0].Value && pair != _bestPair) secondBestPair = pair;
                 }
-                if ((int)_rank < (int)Rank.TwoPair)
+                if ((int)_calculatedRank < (int)Rank.TwoPair)
                 {
-                    _bestHandCards = bestPair.Concat(secondBestPair).ToList();
-                    _rank = Rank.TwoPair;
+                    _bestHandCards = _bestPair.Concat(secondBestPair).ToList();
+                    _calculatedRank = Rank.TwoPair;
                 }
             }
 
             // high card
-            if ((int)_rank <= (int)Rank.HighCard)
+            if ((int)_calculatedRank <= (int)Rank.HighCard)
             {
                 _bestHandCards = new List<Card>() { _cards.Last() };
-                _rank = Rank.HighCard;
+                _calculatedRank = Rank.HighCard;
             }
 
             // get the kickers
@@ -234,13 +241,17 @@ namespace poker
 
             Card[] returnCards = _bestHandCards.OrderBy(o=>o.Value).ToArray();
             Card[] returnKickers = otherCards.ToArray();
-            
-            _sets.Clear();
-            _cards.Clear();
-            _bestHandCards.Clear();
 
-            return new RankedHand(_rank, returnCards, returnKickers);
+            _sets               .Clear();
+            _cards              .Clear();
+            _bestHandCards      .Clear();
+            _straightFlushCards .Clear();
+            _flushCards         .Clear();
+            _straightCards      .Clear();
+            _pairs              .Clear();
+            _tripples           .Clear();
 
+            return new RankedHand(_calculatedRank, returnCards, returnKickers);
         }
 
         public static int[] EvaluateWinningHands(Card[][] hands)
@@ -249,7 +260,6 @@ namespace poker
             foreach(Card[] hand in hands)
             {
                 RankedHand rankedHand = EvaluateHand(hand);
-                Debug.Log(rankedHand.Rank);
                 rankedHands.Add(rankedHand);
             }
 
