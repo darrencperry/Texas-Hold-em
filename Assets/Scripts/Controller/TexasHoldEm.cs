@@ -82,11 +82,11 @@ namespace poker
                     {
                         foreach (Card winningHandCard in player.RankedHand.RankCards)
                         {
-                            if (tableCard.ToString() == winningHandCard.ToString()) tableCard.HighlightGreen = true;
+                            if (tableCard.Card.ToString() == winningHandCard.ToString()) tableCard.HighlightGreen = true;
                         }
                         foreach (Card winningHandCard in player.RankedHand.Kickers)
                         {
-                            if (tableCard.ToString() == winningHandCard.ToString()) tableCard.HighlightBlue = true;
+                            if (tableCard.Card.ToString() == winningHandCard.ToString()) tableCard.HighlightBlue = true;
                         }
                     }
                 }
