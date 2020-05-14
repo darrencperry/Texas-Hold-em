@@ -167,6 +167,36 @@ namespace Tests
                 new Card(CardValue.Nine, CardSuit.Hearts),
                 new Card(CardValue.Nine, CardSuit.Diamonds),
             }).Rank);
+            Assert.AreEqual(Rank.Straight, PokerHandEvaluator.EvaluateHand(new Card[]
+            {
+                new Card(CardValue.Ace, CardSuit.Clubs),
+                new Card(CardValue.King, CardSuit.Hearts),
+                new Card(CardValue.Queen, CardSuit.Clubs),
+                new Card(CardValue.Jack, CardSuit.Diamonds),
+                new Card(CardValue.Ten, CardSuit.Clubs),
+                new Card(CardValue.Nine, CardSuit.Hearts),
+                new Card(CardValue.Nine, CardSuit.Diamonds),
+            }).Rank);
+            Assert.AreEqual(Rank.Straight, PokerHandEvaluator.EvaluateHand(new Card[]
+            {
+                new Card(CardValue.Ace, CardSuit.Clubs),
+                new Card(CardValue.King, CardSuit.Hearts),
+                new Card(CardValue.Five, CardSuit.Clubs),
+                new Card(CardValue.Jack, CardSuit.Diamonds),
+                new Card(CardValue.Three, CardSuit.Clubs),
+                new Card(CardValue.Four, CardSuit.Hearts),
+                new Card(CardValue.Two, CardSuit.Diamonds),
+            }).Rank);
+            Assert.AreEqual(Rank.Straight, PokerHandEvaluator.EvaluateHand(new Card[]
+            {
+                new Card(CardValue.Ace, CardSuit.Clubs),
+                new Card(CardValue.Ace, CardSuit.Hearts),
+                new Card(CardValue.Five, CardSuit.Clubs),
+                new Card(CardValue.King, CardSuit.Diamonds),
+                new Card(CardValue.Three, CardSuit.Clubs),
+                new Card(CardValue.Four, CardSuit.Hearts),
+                new Card(CardValue.Two, CardSuit.Diamonds),
+            }).Rank);
         }
 
         // Threee of a kind

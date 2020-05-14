@@ -65,8 +65,7 @@ namespace poker
 
                 // straights
                 if ((int)_cards[i].Value == (int)_cards[i + 1].Value - 1 || // next card is next highest in value
-                    (_cards[i].Value == CardValue.King && _cards[i + 1].Value == CardValue.Ace) || // this is king and next is ace
-                    (_straightCountMaxCardValue == CardValue.Five && _straightCount == 4 && _cards[i + 1].Value == CardValue.Ace) // highest so far is 5 and straight count is currently 4 and next is Ace
+                    (_cards[i].Value == CardValue.King && _cards[i + 1].Value == CardValue.Ace) // this is king and next is ace
                     )
                 {
                     _straightCount++;
@@ -75,14 +74,20 @@ namespace poker
                         _straightCountMax = _straightCount;
                         _straightCards.Add(_cards[i]);
                         while (_straightCards.Count > 5) _straightCards.RemoveAt(0);
+                        _straightCountMaxCardValue = _cards[i + 1].Value;
                     }
-                    _straightCountMaxCardValue = _cards[i + 1].Value;
                 }
                 else if (_cards[i].Value != _cards[i + 1].Value) // account for sets within the straight
                 {
                     if (_straightCount != 5) _straightCards.Clear();
                     _straightCount = 1;
-                    _straightCountMaxCardValue = _cards[i + 1].Value;
+                }
+
+                // highest so far is 5 (2,3,4,5) and straight count is currently 4 and next is Ace)
+                if (_straightCountMaxCardValue == CardValue.Five && _straightCountMax == 4 && _cards[i + 1].Value == CardValue.Ace) 
+                {
+                    _straightCount = _straightCountMax = 5;
+                    _straightCards.Add(_cards[i]);
                 }
             }
 
