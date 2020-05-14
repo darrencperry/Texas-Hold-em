@@ -100,8 +100,8 @@ namespace poker
                     for (int i = 0; i < _flushCards.Count - 1; i++)
                     {
                         if ((int)_flushCards[i].Value == (int)_flushCards[i + 1].Value - 1 ||
-                            (_flushCards[i].Value == CardValue.King && _flushCards[i + 1].Value == CardValue.Ace) ||
-                            (_straightFlushCountMaxCardValue == CardValue.Five && _straightFlushCount == 4 && _flushCards[i + 1].Value == CardValue.Ace)
+                            (_flushCards[i].Value == CardValue.King && _flushCards[i + 1].Value == CardValue.Ace)
+                            
                             )
                         {
                             _straightFlushCount++;
@@ -111,6 +111,13 @@ namespace poker
                             if (_straightFlushCount > _straightFlushCountMax) _straightFlushCountMax = _straightFlushCount;
                             _straightFlushCountMaxCardValue = _flushCards[i + 1].Value;
                         }
+
+                        if (_straightFlushCountMaxCardValue == CardValue.Five && _straightFlushCountMax == 4 && _flushCards[i + 1].Value == CardValue.Ace)
+                        {
+
+                            _straightFlushCount = _straightFlushCountMax = 5;
+                            _straightFlushCards.Add(_cards[i]);
+                        }
                     }
 
                     if (_straightFlushCountMax >= 5)
@@ -118,13 +125,13 @@ namespace poker
                         if (_straightFlushCountMaxCardValue == CardValue.Ace)
                         {
                             // Royal Flush
-                            _bestHandCards = _straightFlushCards.ToList();
+                            _bestHandCards = _straightFlushCards.Skip(_straightFlushCards.Count - 5).ToList();
                             _calculatedRank = Rank.RoyalFlush;
                         }
                         else
                         {
                             // Straight Flush
-                            _bestHandCards = _straightFlushCards.ToList();
+                            _bestHandCards = _straightFlushCards.Skip(_straightFlushCards.Count - 5).ToList();
                             _calculatedRank = Rank.StraightFlush;
                         }
                     }

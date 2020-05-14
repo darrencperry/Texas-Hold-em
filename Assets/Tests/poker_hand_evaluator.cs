@@ -64,6 +64,16 @@ namespace Tests
                 new Card(CardValue.Nine, CardSuit.Hearts),
                 new Card(CardValue.Nine, CardSuit.Diamonds),
             }).Rank);
+            Assert.AreEqual(Rank.StraightFlush, PokerHandEvaluator.EvaluateHand(new Card[]
+            {
+                new Card(CardValue.Ace, CardSuit.Clubs),
+                new Card(CardValue.Four, CardSuit.Clubs),
+                new Card(CardValue.Three, CardSuit.Clubs),
+                new Card(CardValue.Five, CardSuit.Clubs),
+                new Card(CardValue.Two, CardSuit.Clubs),
+                new Card(CardValue.Nine, CardSuit.Hearts),
+                new Card(CardValue.Nine, CardSuit.Diamonds),
+            }).Rank);
         }
 
         // Four of a Kind
