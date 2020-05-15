@@ -30,7 +30,7 @@ namespace poker
         public void RemoveAllCards()
         {
             _cards.Clear();
-            Util.RemoveChildrenFromTransform(_cardContainer);
+            _cardContainer.RemoveAllChildren();
             OnRemoveAllCards();
         }
 
