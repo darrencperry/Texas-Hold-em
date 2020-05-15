@@ -1,6 +1,6 @@
 ﻿namespace poker
 {
-    public class Table : CardHolder
+    public class TableView : CardHolder
     {
         protected override void OnAddCard()
         {

@@ -11,11 +11,12 @@ namespace Tests
 {
     public class poker_hand_evaluator
     {
+        private PokerHandEvaluator _pokerHandEvaluator = new PokerHandEvaluator();
         // Royal FLush
         [Test]
         public void poker_hand_evaluator_test_royal_flush()
         {
-            RankedHand rankedHand1 = PokerHandEvaluator.EvaluateHand(new Card[]
+            RankedHand rankedHand1 = _pokerHandEvaluator.EvaluateHand(new Card[]
             {
                 new Card(CardValue.Ace, CardSuit.Clubs),
                 new Card(CardValue.King, CardSuit.Clubs),
@@ -28,7 +29,7 @@ namespace Tests
 
             Assert.AreEqual(Rank.RoyalFlush, rankedHand1.Rank);
 
-            Assert.AreEqual(Rank.RoyalFlush, PokerHandEvaluator.EvaluateHand(new Card[]
+            Assert.AreEqual(Rank.RoyalFlush, _pokerHandEvaluator.EvaluateHand(new Card[]
             {
                 new Card(CardValue.Ace, CardSuit.Hearts),
                 new Card(CardValue.King, CardSuit.Clubs),
@@ -44,7 +45,7 @@ namespace Tests
         [Test]
         public void poker_hand_evaluator_test_straight_flush()
         {
-            Assert.AreEqual(Rank.StraightFlush, PokerHandEvaluator.EvaluateHand(new Card[]
+            Assert.AreEqual(Rank.StraightFlush, _pokerHandEvaluator.EvaluateHand(new Card[]
             {
                 new Card(CardValue.Nine, CardSuit.Clubs),
                 new Card(CardValue.King, CardSuit.Clubs),
@@ -54,7 +55,7 @@ namespace Tests
                 new Card(CardValue.Two, CardSuit.Hearts),
                 new Card(CardValue.Five, CardSuit.Diamonds),
             }).Rank);
-            Assert.AreEqual(Rank.StraightFlush, PokerHandEvaluator.EvaluateHand(new Card[]
+            Assert.AreEqual(Rank.StraightFlush, _pokerHandEvaluator.EvaluateHand(new Card[]
             {
                 new Card(CardValue.Nine, CardSuit.Clubs),
                 new Card(CardValue.King, CardSuit.Clubs),
@@ -64,7 +65,7 @@ namespace Tests
                 new Card(CardValue.Nine, CardSuit.Hearts),
                 new Card(CardValue.Nine, CardSuit.Diamonds),
             }).Rank);
-            Assert.AreEqual(Rank.StraightFlush, PokerHandEvaluator.EvaluateHand(new Card[]
+            Assert.AreEqual(Rank.StraightFlush, _pokerHandEvaluator.EvaluateHand(new Card[]
             {
                 new Card(CardValue.Ace, CardSuit.Clubs),
                 new Card(CardValue.Four, CardSuit.Clubs),
@@ -80,7 +81,7 @@ namespace Tests
         [Test]
         public void poker_hand_evaluator_test_four_of_a_kind()
         {
-            RankedHand hand1 = PokerHandEvaluator.EvaluateHand(new Card[]
+            RankedHand hand1 = _pokerHandEvaluator.EvaluateHand(new Card[]
             {
                 new Card(CardValue.Nine, CardSuit.Clubs),
                 new Card(CardValue.King, CardSuit.Clubs),
@@ -94,7 +95,7 @@ namespace Tests
             Assert.AreEqual(new Card(CardValue.King, CardSuit.Clubs).ToString(), new List<Card>(hand1.Kickers).First().ToString());
             Assert.AreEqual(1, hand1.Kickers.Length);
 
-            RankedHand hand2 = PokerHandEvaluator.EvaluateHand(new Card[]
+            RankedHand hand2 = _pokerHandEvaluator.EvaluateHand(new Card[]
             {
                 new Card(CardValue.Nine, CardSuit.Clubs),
                 new Card(CardValue.Five, CardSuit.Clubs),
@@ -113,7 +114,7 @@ namespace Tests
         [Test]
         public void poker_hand_evaluator_test_full_house()
         {
-            Assert.AreEqual(Rank.FullHouse, PokerHandEvaluator.EvaluateHand(new Card[]
+            Assert.AreEqual(Rank.FullHouse, _pokerHandEvaluator.EvaluateHand(new Card[]
             {
                 new Card(CardValue.Nine, CardSuit.Diamonds),
                 new Card(CardValue.Nine, CardSuit.Hearts),
@@ -129,7 +130,7 @@ namespace Tests
         [Test]
         public void poker_hand_evaluator_test_flush()
         {
-            Assert.AreEqual(Rank.Flush, PokerHandEvaluator.EvaluateHand(new Card[]
+            Assert.AreEqual(Rank.Flush, _pokerHandEvaluator.EvaluateHand(new Card[]
             {
                 new Card(CardValue.Nine, CardSuit.Diamonds),
                 new Card(CardValue.King, CardSuit.Diamonds),
@@ -141,7 +142,7 @@ namespace Tests
             }).Rank);
 
             // has a straight as well but should return flush
-            Assert.AreEqual(Rank.Flush, PokerHandEvaluator.EvaluateHand(new Card[]
+            Assert.AreEqual(Rank.Flush, _pokerHandEvaluator.EvaluateHand(new Card[]
             {
                 new Card(CardValue.Nine, CardSuit.Diamonds),
                 new Card(CardValue.King, CardSuit.Diamonds),
@@ -157,7 +158,7 @@ namespace Tests
         [Test]
         public void poker_hand_evaluator_test_straight()
         {
-            Assert.AreEqual(Rank.Straight, PokerHandEvaluator.EvaluateHand(new Card[]
+            Assert.AreEqual(Rank.Straight, _pokerHandEvaluator.EvaluateHand(new Card[]
             {
                 new Card(CardValue.Nine, CardSuit.Clubs),
                 new Card(CardValue.King, CardSuit.Hearts),
@@ -167,7 +168,7 @@ namespace Tests
                 new Card(CardValue.Two, CardSuit.Hearts),
                 new Card(CardValue.Five, CardSuit.Diamonds),
             }).Rank);
-            Assert.AreEqual(Rank.Straight, PokerHandEvaluator.EvaluateHand(new Card[]
+            Assert.AreEqual(Rank.Straight, _pokerHandEvaluator.EvaluateHand(new Card[]
             {
                 new Card(CardValue.Nine, CardSuit.Clubs),
                 new Card(CardValue.King, CardSuit.Hearts),
@@ -177,7 +178,7 @@ namespace Tests
                 new Card(CardValue.Nine, CardSuit.Hearts),
                 new Card(CardValue.Nine, CardSuit.Diamonds),
             }).Rank);
-            Assert.AreEqual(Rank.Straight, PokerHandEvaluator.EvaluateHand(new Card[]
+            Assert.AreEqual(Rank.Straight, _pokerHandEvaluator.EvaluateHand(new Card[]
             {
                 new Card(CardValue.Ace, CardSuit.Clubs),
                 new Card(CardValue.King, CardSuit.Hearts),
@@ -187,7 +188,7 @@ namespace Tests
                 new Card(CardValue.Nine, CardSuit.Hearts),
                 new Card(CardValue.Nine, CardSuit.Diamonds),
             }).Rank);
-            Assert.AreEqual(Rank.Straight, PokerHandEvaluator.EvaluateHand(new Card[]
+            Assert.AreEqual(Rank.Straight, _pokerHandEvaluator.EvaluateHand(new Card[]
             {
                 new Card(CardValue.Ace, CardSuit.Clubs),
                 new Card(CardValue.King, CardSuit.Hearts),
@@ -197,7 +198,7 @@ namespace Tests
                 new Card(CardValue.Four, CardSuit.Hearts),
                 new Card(CardValue.Two, CardSuit.Diamonds),
             }).Rank);
-            Assert.AreEqual(Rank.Straight, PokerHandEvaluator.EvaluateHand(new Card[]
+            Assert.AreEqual(Rank.Straight, _pokerHandEvaluator.EvaluateHand(new Card[]
             {
                 new Card(CardValue.Ace, CardSuit.Clubs),
                 new Card(CardValue.Ace, CardSuit.Hearts),
@@ -213,7 +214,7 @@ namespace Tests
         [Test]
         public void poker_hand_evaluator_test_three_of_a_kind()
         {
-            RankedHand hand1 = PokerHandEvaluator.EvaluateHand(new Card[]
+            RankedHand hand1 = _pokerHandEvaluator.EvaluateHand(new Card[]
             {
                 new Card(CardValue.Three, CardSuit.Clubs),
                 new Card(CardValue.Three, CardSuit.Hearts),
@@ -227,7 +228,7 @@ namespace Tests
             Assert.AreEqual(new Card(CardValue.Jack, CardSuit.Clubs).ToString(), new List<Card>(hand1.Kickers).First().ToString());
             Assert.AreEqual(2, hand1.Kickers.Length);
 
-            RankedHand hand2 = PokerHandEvaluator.EvaluateHand(new Card[]
+            RankedHand hand2 = _pokerHandEvaluator.EvaluateHand(new Card[]
             {
                 new Card(CardValue.Seven, CardSuit.Clubs),
                 new Card(CardValue.Seven, CardSuit.Hearts),
@@ -246,7 +247,7 @@ namespace Tests
         [Test]
         public void poker_hand_evaluator_test_two_pair()
         {
-            RankedHand hand1 = PokerHandEvaluator.EvaluateHand(new Card[]
+            RankedHand hand1 = _pokerHandEvaluator.EvaluateHand(new Card[]
             {
                 new Card(CardValue.Three, CardSuit.Clubs),
                 new Card(CardValue.Three, CardSuit.Hearts),
@@ -260,7 +261,7 @@ namespace Tests
             Assert.AreEqual(new Card(CardValue.Jack, CardSuit.Clubs).ToString(), new List<Card>(hand1.Kickers).First().ToString());
             Assert.AreEqual(1, hand1.Kickers.Length);
 
-            RankedHand hand2 = PokerHandEvaluator.EvaluateHand(new Card[]
+            RankedHand hand2 = _pokerHandEvaluator.EvaluateHand(new Card[]
             {
                 new Card(CardValue.Ten, CardSuit.Clubs),
                 new Card(CardValue.Ten, CardSuit.Hearts),
@@ -279,7 +280,7 @@ namespace Tests
         [Test]
         public void poker_hand_evaluator_test_pair()
         {
-            RankedHand hand1 = PokerHandEvaluator.EvaluateHand(new Card[]
+            RankedHand hand1 = _pokerHandEvaluator.EvaluateHand(new Card[]
             {
                 new Card(CardValue.Three, CardSuit.Clubs),
                 new Card(CardValue.Three, CardSuit.Hearts),
@@ -298,7 +299,7 @@ namespace Tests
         [Test]
         public void poker_hand_evaluator_test_high_card()
         {
-            RankedHand hand1 = PokerHandEvaluator.EvaluateHand(new Card[]
+            RankedHand hand1 = _pokerHandEvaluator.EvaluateHand(new Card[]
             {
                 new Card(CardValue.Eight, CardSuit.Clubs),
                 new Card(CardValue.Three, CardSuit.Hearts),
@@ -338,7 +339,7 @@ namespace Tests
                 new Card(CardValue.Ten, CardSuit.Clubs)
             };
 
-            int[] handOrder = PokerHandEvaluator.EvaluateWinningHands(new Card[][] { hand1, hand2 });
+            int[] handOrder = _pokerHandEvaluator.EvaluateWinningHands(new Card[][] { hand1, hand2 });
             int[] expected = { 1, 0 };
             for (int i = 0; i < handOrder.Length; i++)
             {
@@ -366,7 +367,7 @@ namespace Tests
                 new Card(CardValue.Ten, CardSuit.Clubs)
             };
 
-            int[] handOrder = PokerHandEvaluator.EvaluateWinningHands(new Card[][] { hand1, hand2 });
+            int[] handOrder = _pokerHandEvaluator.EvaluateWinningHands(new Card[][] { hand1, hand2 });
             int[] expected = { 1, 0 };
             for (int i = 0; i < handOrder.Length; i++)
             {
@@ -394,7 +395,7 @@ namespace Tests
                 new Card(CardValue.Jack, CardSuit.Clubs)
             };
 
-            int[] handOrder = PokerHandEvaluator.EvaluateWinningHands(new Card[][] { hand1, hand2 });
+            int[] handOrder = _pokerHandEvaluator.EvaluateWinningHands(new Card[][] { hand1, hand2 });
             int[] expected = { 1, 0 };
             for (int i = 0; i < handOrder.Length; i++)
             {
@@ -430,7 +431,7 @@ namespace Tests
                 new Card(CardValue.Ten, CardSuit.Hearts)
             };
 
-            int[] handOrder = PokerHandEvaluator.EvaluateWinningHands(new Card[][] { hand1, hand2, hand3 });
+            int[] handOrder = _pokerHandEvaluator.EvaluateWinningHands(new Card[][] { hand1, hand2, hand3 });
             int[] expected = { 2, 0, 1 };
             for (int i = 0; i < handOrder.Length; i++)
             {
@@ -458,7 +459,7 @@ namespace Tests
                 new Card(CardValue.Ten, CardSuit.Clubs)
             };
 
-            int[] handOrder = PokerHandEvaluator.EvaluateWinningHands(new Card[][] { hand1, hand2 });
+            int[] handOrder = _pokerHandEvaluator.EvaluateWinningHands(new Card[][] { hand1, hand2 });
             int[] expected = { 1, 0 };
             for (int i = 0; i < handOrder.Length; i++)
             {
@@ -486,7 +487,7 @@ namespace Tests
                 new Card(CardValue.Ten, CardSuit.Spades)
             };
 
-            int[] handOrder = PokerHandEvaluator.EvaluateWinningHands(new Card[][] { hand1, hand2 });
+            int[] handOrder = _pokerHandEvaluator.EvaluateWinningHands(new Card[][] { hand1, hand2 });
             int[] expected = { 1, 0 };
             for (int i = 0; i < handOrder.Length; i++)
             {
@@ -522,7 +523,7 @@ namespace Tests
                 new Card(CardValue.Queen, CardSuit.Clubs)
             };
 
-            int[] handOrder = PokerHandEvaluator.EvaluateWinningHands(new Card[][] { hand1, hand2, hand3 });
+            int[] handOrder = _pokerHandEvaluator.EvaluateWinningHands(new Card[][] { hand1, hand2, hand3 });
             int[] expected = { 2, 0, 1 };
             for (int i = 0; i < handOrder.Length; i++)
             {
@@ -566,7 +567,7 @@ namespace Tests
                 new Card(CardValue.Ace, CardSuit.Clubs)
             };
 
-            int[] handOrder = PokerHandEvaluator.EvaluateWinningHands(new Card[][] { hand1, hand2, hand3, hand4 });
+            int[] handOrder = _pokerHandEvaluator.EvaluateWinningHands(new Card[][] { hand1, hand2, hand3, hand4 });
             int[] expected = { 3, 1, 2, 0 };
             for (int i = 0; i < handOrder.Length; i++)
             {
@@ -610,7 +611,7 @@ namespace Tests
                 new Card(CardValue.Ace, CardSuit.Clubs)
             };
 
-            int[] handOrder = PokerHandEvaluator.EvaluateWinningHands(new Card[][] { hand1, hand2, hand3, hand4 });
+            int[] handOrder = _pokerHandEvaluator.EvaluateWinningHands(new Card[][] { hand1, hand2, hand3, hand4 });
             int[] expected = { 2, 0, 1, 3 };
             for (int i = 0; i < handOrder.Length; i++)
             {
@@ -654,7 +655,7 @@ namespace Tests
                 new Card(CardValue.Ace, CardSuit.Clubs)
             };
 
-            int[] handOrder = PokerHandEvaluator.EvaluateWinningHands(new Card[][] { hand1, hand2, hand3, hand4 });
+            int[] handOrder = _pokerHandEvaluator.EvaluateWinningHands(new Card[][] { hand1, hand2, hand3, hand4 });
             int[] expected = { 3, 1, 2, 0 };
             for (int i = 0; i < handOrder.Length; i++)
             {
@@ -682,7 +683,7 @@ namespace Tests
                 new Card(CardValue.Two, CardSuit.Clubs)
             };
 
-            int[] handOrder = PokerHandEvaluator.EvaluateWinningHands(new Card[][] { hand1, hand2 });
+            int[] handOrder = _pokerHandEvaluator.EvaluateWinningHands(new Card[][] { hand1, hand2 });
             int[] expected = { 0, 0 };
             for (int i = 0; i < handOrder.Length; i++)
             {
@@ -719,7 +720,7 @@ namespace Tests
                 new Card(CardValue.Three, CardSuit.Clubs)
             };
 
-            int[] handOrder = PokerHandEvaluator.EvaluateWinningHands(new Card[][] { hand1, hand2, hand3 });
+            int[] handOrder = _pokerHandEvaluator.EvaluateWinningHands(new Card[][] { hand1, hand2, hand3 });
             int[] expected = { 0, 0, 1 };
             for (int i = 0; i < handOrder.Length; i++)
             {
@@ -755,7 +756,7 @@ namespace Tests
                 new Card(CardValue.Eight, CardSuit.Diamonds)
             };
 
-            int[] handOrder = PokerHandEvaluator.EvaluateWinningHands(new Card[][] { hand1, hand2, hand3 });
+            int[] handOrder = _pokerHandEvaluator.EvaluateWinningHands(new Card[][] { hand1, hand2, hand3 });
             int[] expected = { 0, 0, 0 };
             for (int i = 0; i < handOrder.Length; i++)
             {
@@ -783,7 +784,7 @@ namespace Tests
                 new Card(CardValue.Queen, CardSuit.Diamonds)
             };
 
-            int[] handOrder = PokerHandEvaluator.EvaluateWinningHands(new Card[][] { hand1, hand2 });
+            int[] handOrder = _pokerHandEvaluator.EvaluateWinningHands(new Card[][] { hand1, hand2 });
             int[] expected = { 1, 0 };
             for (int i = 0; i < handOrder.Length; i++)
             {
@@ -811,7 +812,7 @@ namespace Tests
                 new Card(CardValue.King, CardSuit.Clubs)
             };
 
-            int[] handOrder = PokerHandEvaluator.EvaluateWinningHands(new Card[][] { hand1, hand2 });
+            int[] handOrder = _pokerHandEvaluator.EvaluateWinningHands(new Card[][] { hand1, hand2 });
             int[] expected = { 1, 0 };
             for (int i = 0; i < handOrder.Length; i++)
             {
@@ -853,7 +854,7 @@ namespace Tests
                 new Card(CardValue.Ace, CardSuit.Hearts),
             };
 
-            int[] handOrder = PokerHandEvaluator.EvaluateWinningHands(new Card[][] { hand1, hand2, hand3 });
+            int[] handOrder = _pokerHandEvaluator.EvaluateWinningHands(new Card[][] { hand1, hand2, hand3 });
             int[] expected = { 1, 0, 1 };
             for (int i = 0; i < handOrder.Length; i++)
             {
@@ -905,7 +906,7 @@ namespace Tests
                 new Card(CardValue.Seven, CardSuit.Spades),
             };
 
-            int[] handOrder = PokerHandEvaluator.EvaluateWinningHands(new Card[][] { hand1, hand2, hand3, hand4 });
+            int[] handOrder = _pokerHandEvaluator.EvaluateWinningHands(new Card[][] { hand1, hand2, hand3, hand4 });
             int[] expected = { 0,1,2,3 };
             for (int i = 0; i < handOrder.Length; i++)
             {

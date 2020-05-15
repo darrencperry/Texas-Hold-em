@@ -7,27 +7,27 @@ namespace poker
 {
     public class PokerHandEvaluator
     {
-        private static int _straightCount;
-        private static int _straightCountMax;
-        private static CardValue _straightCountMaxCardValue;
-        private static int _straightFlushCount;
-        private static int _straightFlushCountMax;
-        private static CardValue _straightFlushCountMaxCardValue;
-        private static int _numberOfPairs;
-        private static int _numberOfTripples;
-        private static Rank _calculatedRank;
-        private static Dictionary<CardValue, int> _sets;
-        private static List<Card> _cards;
-        private static List<Card> _bestHandCards;
-        private static List<Card> _straightFlushCards;
-        private static List<Card> _flushCards;
-        private static List<Card> _straightCards;
-        private static List<Card[]> _pairs;
-        private static List<Card[]> _tripples;
-        private static Card[] _bestPair;
-        private static Card[] _bestTripple;
+        private int _straightCount;
+        private int _straightCountMax;
+        private CardValue _straightCountMaxCardValue;
+        private int _straightFlushCount;
+        private int _straightFlushCountMax;
+        private CardValue _straightFlushCountMaxCardValue;
+        private int _numberOfPairs;
+        private int _numberOfTripples;
+        private Rank _calculatedRank;
+        private Dictionary<CardValue, int> _sets;
+        private List<Card> _cards;
+        private List<Card> _bestHandCards;
+        private List<Card> _straightFlushCards;
+        private List<Card> _flushCards;
+        private List<Card> _straightCards;
+        private List<Card[]> _pairs;
+        private List<Card[]> _tripples;
+        private Card[] _bestPair;
+        private Card[] _bestTripple;
 
-        public static RankedHand EvaluateHand(Card[] cards)
+        public RankedHand EvaluateHand(Card[] cards)
         {
             _straightCount = 1;
             _straightCountMax = 0;
@@ -266,7 +266,7 @@ namespace poker
             return new RankedHand(_calculatedRank, returnCards, returnKickers);
         }
 
-        public static int[] EvaluateWinningHands(Card[][] hands)
+        public int[] EvaluateWinningHands(Card[][] hands)
         {
             List<RankedHand> rankedHands = new List<RankedHand>();
             foreach(Card[] hand in hands)

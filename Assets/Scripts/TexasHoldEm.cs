@@ -9,18 +9,19 @@ namespace poker
 {
     public class TexasHoldEm : MonoBehaviour
     {
-
+        private PokerHandEvaluator _pokerHandEvaluator;
         private Deck _deck;
         [SerializeField]
         private List<PlayerView> _players;
         [SerializeField]
-        private Table _table;
+        private TableView _table;
         [SerializeField]
         private Transform _playerContainer;
         private int _maxPlayers;
 
         private void Awake()
         {
+            _pokerHandEvaluator = new PokerHandEvaluator();
             _deck = new Deck();
             _players = new List<PlayerView>();
             _maxPlayers = (_deck.NumberOfCards - 5) / 2;
@@ -98,7 +99,7 @@ namespace poker
             foreach (PlayerView player in _players)
             {
                 //player.HideRank();
-                player.RankedHand = PokerHandEvaluator.EvaluateHand(_table.GetCards().Concat(player.GetCards()).ToArray());
+                player.RankedHand = _pokerHandEvaluator.EvaluateHand(_table.GetCards().Concat(player.GetCards()).ToArray());
             }
         }
 
@@ -145,7 +146,7 @@ namespace poker
         private void CalculatePlayerPositions()
         {
             int j = 0;
-            foreach (int i in PokerHandEvaluator.EvaluateWinningHands(_players.Select(o => o.RankedHand.Hand).ToArray()))
+            foreach (int i in _pokerHandEvaluator.EvaluateWinningHands(_players.Select(o => o.RankedHand.Hand).ToArray()))
             {
                 _players[j].Position = i;
                 j++;
