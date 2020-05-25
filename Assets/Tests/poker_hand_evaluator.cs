@@ -107,6 +107,7 @@ namespace Tests
             });
             Assert.AreEqual(Rank.FourOfAKind, hand2.Rank);
             Assert.AreEqual(CardValue.Six, new List<Card>(hand2.Kickers).First().Value);
+            Assert.AreEqual(4, hand2.RankCards.Length);
             Assert.AreEqual(1, hand2.Kickers.Length);
         }
 
@@ -114,7 +115,7 @@ namespace Tests
         [Test]
         public void poker_hand_evaluator_test_full_house()
         {
-            Assert.AreEqual(Rank.FullHouse, _pokerHandEvaluator.EvaluateHand(new Card[]
+            RankedHand hand = _pokerHandEvaluator.EvaluateHand(new Card[]
             {
                 new Card(CardValue.Nine, CardSuit.Diamonds),
                 new Card(CardValue.Nine, CardSuit.Hearts),
@@ -123,7 +124,10 @@ namespace Tests
                 new Card(CardValue.Jack, CardSuit.Clubs),
                 new Card(CardValue.Two, CardSuit.Hearts),
                 new Card(CardValue.Five, CardSuit.Diamonds),
-            }).Rank);
+            });
+            Assert.AreEqual(Rank.FullHouse, hand.Rank);
+            Assert.AreEqual(5, hand.RankCards.Length);
+            Assert.AreEqual(5, hand.Hand.Length);
         }
 
         // Flush
@@ -168,6 +172,7 @@ namespace Tests
                 new Card(CardValue.Two, CardSuit.Hearts),
                 new Card(CardValue.Five, CardSuit.Diamonds),
             }).Rank);
+
             Assert.AreEqual(Rank.Straight, _pokerHandEvaluator.EvaluateHand(new Card[]
             {
                 new Card(CardValue.Nine, CardSuit.Clubs),
@@ -178,6 +183,7 @@ namespace Tests
                 new Card(CardValue.Nine, CardSuit.Hearts),
                 new Card(CardValue.Nine, CardSuit.Diamonds),
             }).Rank);
+
             Assert.AreEqual(Rank.Straight, _pokerHandEvaluator.EvaluateHand(new Card[]
             {
                 new Card(CardValue.Ace, CardSuit.Clubs),
@@ -188,17 +194,36 @@ namespace Tests
                 new Card(CardValue.Nine, CardSuit.Hearts),
                 new Card(CardValue.Nine, CardSuit.Diamonds),
             }).Rank);
-            Assert.AreEqual(Rank.Straight, _pokerHandEvaluator.EvaluateHand(new Card[]
+            
+            RankedHand hand1 = _pokerHandEvaluator.EvaluateHand(new Card[]
             {
                 new Card(CardValue.Ace, CardSuit.Clubs),
                 new Card(CardValue.King, CardSuit.Hearts),
-                new Card(CardValue.Five, CardSuit.Clubs),
+                new Card(CardValue.Queen, CardSuit.Clubs),
                 new Card(CardValue.Jack, CardSuit.Diamonds),
+                new Card(CardValue.Ten, CardSuit.Clubs),
+                new Card(CardValue.Nine, CardSuit.Hearts),
+                new Card(CardValue.Nine, CardSuit.Diamonds),
+            });
+            
+            Assert.AreEqual(Rank.Straight, hand1.Rank);
+            Assert.AreEqual(5, hand1.RankCards.Length);
+
+
+            RankedHand hand2 = _pokerHandEvaluator.EvaluateHand(new Card[]
+            {
+                new Card(CardValue.Jack, CardSuit.Clubs),
+                new Card(CardValue.Ace, CardSuit.Hearts),
+                new Card(CardValue.Five, CardSuit.Clubs),
+                new Card(CardValue.King, CardSuit.Diamonds),
                 new Card(CardValue.Three, CardSuit.Clubs),
                 new Card(CardValue.Four, CardSuit.Hearts),
                 new Card(CardValue.Two, CardSuit.Diamonds),
-            }).Rank);
-            Assert.AreEqual(Rank.Straight, _pokerHandEvaluator.EvaluateHand(new Card[]
+            });
+            Assert.AreEqual(Rank.Straight, hand2.Rank);
+            Assert.AreEqual(5, hand2.RankCards.Length);
+
+            RankedHand hand3 = _pokerHandEvaluator.EvaluateHand(new Card[]
             {
                 new Card(CardValue.Ace, CardSuit.Clubs),
                 new Card(CardValue.Ace, CardSuit.Hearts),
@@ -207,7 +232,9 @@ namespace Tests
                 new Card(CardValue.Three, CardSuit.Clubs),
                 new Card(CardValue.Four, CardSuit.Hearts),
                 new Card(CardValue.Two, CardSuit.Diamonds),
-            }).Rank);
+            });
+            Assert.AreEqual(Rank.Straight, hand3.Rank);
+            Assert.AreEqual(5, hand3.RankCards.Length);
         }
 
         // Threee of a kind

@@ -73,7 +73,7 @@ namespace poker
                     {
                         _straightCountMax = _straightCount;
                         _straightCards.Add(_cards[i]);
-                        while (_straightCards.Count > 5) _straightCards.RemoveAt(0);
+                        if(i == _cards.Count - 1) _straightCards.Add(_cards[i+1]);
                         _straightCountMaxCardValue = _cards[i + 1].Value;
                     }
                 }
@@ -87,8 +87,14 @@ namespace poker
                 if (_straightCountMaxCardValue == CardValue.Five && _straightCountMax == 4 && _cards[i + 1].Value == CardValue.Ace) 
                 {
                     _straightCount = _straightCountMax = 5;
-                    _straightCards.Add(_cards[i]);
+                    _straightCards.Clear();
+                    _straightCards.Add(_cards.Find(o => o.Value == CardValue.Two));
+                    _straightCards.Add(_cards.Find(o => o.Value == CardValue.Three));
+                    _straightCards.Add(_cards.Find(o => o.Value == CardValue.Four));
+                    _straightCards.Add(_cards.Find(o => o.Value == CardValue.Five));
+                    _straightCards.Add(_cards[i+1]);
                 }
+
             }
 
             foreach (CardSuit suit in Enum.GetValues(typeof(CardSuit)))
