@@ -33,7 +33,7 @@ jobs:
 
       # Test
       - name: Run tests
-        uses:  darrencperry/unity-test-runner@v1.6
+        uses: webbertakken/unity-test-runner@v1.6
         id: testRunner
         with:
           unityVersion: ${{ matrix.unityVersion }}
@@ -41,6 +41,7 @@ jobs:
         with:
           name: Test results (all modes)
           path: ${{ steps.testRunner.outputs.artifactsPath }}
+      - run: sudo rm -rf ${{ steps.testRunner.outputs.artifactsPath }}
 
       # Build
       - name: Build project
