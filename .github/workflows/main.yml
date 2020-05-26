@@ -1,11 +1,45 @@
-name: Activate Unity
-on: [push]
+name: Actions 😎
+
+on:
+  pull_request: {}
+  push: { branches: [master] }
+
+env:
+  UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+
 jobs:
-  requestActivation:
-    name: Request activation ✔
+  build:
+    name: Build my project ✨
     runs-on: ubuntu-latest
     steps:
-    - name: Activate Unity
-      uses: webbertakken/unity-activate@v1.2
-      env:
-        UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+    
+      # Checkout
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          lfs: true
+    
+      # Cache
+      - uses: actions/cache@v1.1.0
+        with:
+          path: Library
+          key: Library
+
+      # Test
+      - name: Run tests
+        uses: webbertakken/unity-test-runner@v1.6
+        with:
+          unityVersion: 2019.3.7f1
+
+      # Build
+      - name: Build project
+        uses: webbertakken/unity-builder@v1.0
+        with:
+          unityVersion: 2019.3.7f1
+          targetPlatform: WebGL 
+
+      # Output 
+      - uses: actions/upload-artifact@v1
+        with:
+          name: Build
+          path: build
