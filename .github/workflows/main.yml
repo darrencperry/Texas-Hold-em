@@ -41,6 +41,7 @@ jobs:
         with:
           name: Test results (all modes)
           path: ${{ steps.testRunner.outputs.artifactsPath }}
+      - run: rm -rf ${{ steps.testRunner.outputs.artifactsPath }}
 
       # Build
       - name: Build project
