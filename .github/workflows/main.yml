@@ -9,7 +9,7 @@ env:
 
 jobs:
   build:
-    name: Build my project ✨
+    name: Build for ${{ matrix.targetPlatform }} on version ${{ matrix.unityVersion }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -44,7 +44,7 @@ jobs:
 
       # Build
       - name: Build project
-        uses: webbertakken/unity-builder@v1.0
+        uses: webbertakken/unity-builder@v0.10
         with:
           unityVersion: ${{ matrix.unityVersion }}
           targetPlatform: ${{ matrix.targetPlatform }}
