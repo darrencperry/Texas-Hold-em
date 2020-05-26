@@ -13,6 +13,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
+        unityVersion:
+          - 2019.3.7f1
         targetPlatform:
           - StandaloneWindows64
     steps:
@@ -32,15 +34,20 @@ jobs:
       # Test
       - name: Run tests
         uses: webbertakken/unity-test-runner@v1.6
+        id: testRunner
         with:
-          unityVersion: 2019.3.7f1
+          unityVersion: ${{ matrix.unityVersion }}
+      - uses: actions/upload-artifact@v1
+        with:
+          name: Test results (all modes)
+          path: ${{ steps.testRunner.outputs.artifactsPath }}
 
       # Build
       - name: Build project
         uses: webbertakken/unity-builder@v1.0
         with:
-          unityVersion: 2019.3.7f1
-          targetPlatform: WebGL 
+          unityVersion: ${{ matrix.unityVersion }}
+          targetPlatform: ${{ matrix.targetPlatform }}
 
       # Output 
       - uses: actions/upload-artifact@v1
