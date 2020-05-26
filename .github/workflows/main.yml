@@ -33,7 +33,7 @@ jobs:
 
       # Test
       - name: Run tests
-        uses:  darrencperry/unity-test-runner
+        uses:  darrencperry/unity-test-runner@v1.6
         id: testRunner
         with:
           unityVersion: ${{ matrix.unityVersion }}
