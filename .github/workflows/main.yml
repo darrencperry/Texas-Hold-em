@@ -2,9 +2,8 @@ name: Actions 😎
 
 on:
   pull_request: {}
-  push: 
-    branches: 
-      - master
+  push: { branches: [master] }
+
 env:
   UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
 
@@ -30,9 +29,7 @@ jobs:
       - uses: actions/cache@v1.1.0
         with:
           path: Library
-          key: Library-${{ matrix.targetPlatform }}
-          restore-keys: |
-            Library-
+          key: Library
 
       # Test
       - name: Run tests
@@ -52,10 +49,9 @@ jobs:
         with:
           unityVersion: ${{ matrix.unityVersion }}
           targetPlatform: ${{ matrix.targetPlatform }}
-          versioning: Semantic
 
       # Output 
       - uses: actions/upload-artifact@v1
         with:
-          name: ${{ matrix.targetPlatform }}
+          name: Build
           path: build
