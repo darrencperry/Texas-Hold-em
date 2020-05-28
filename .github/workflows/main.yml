@@ -2,7 +2,13 @@ name: Actions 😎
 
 on:
   pull_request: {}
-  push: { branches: [master] }
+  push: 
+    branches: 
+      - 'master'
+    paths:
+      - 'Assets'
+      - 'Packages'
+      - 'ProjectSettings'
 
 env:
   UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
