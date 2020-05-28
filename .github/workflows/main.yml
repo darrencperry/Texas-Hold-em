@@ -34,7 +34,6 @@ jobs:
           path: Library
           key: Library-${{ matrix.targetPlatform }}
           restore-keys: |
-            Library-${{ matrix.projectPath }}-
             Library-
 
       # Test
