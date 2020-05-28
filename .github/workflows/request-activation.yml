@@ -1,0 +1,11 @@
+name: Activate Unity
+on: [push]
+jobs:
+  requestActivation:
+    name: Request activation ✔
+    runs-on: ubuntu-latest
+    steps:
+    - name: Activate Unity
+      uses: webbertakken/unity-activate@v1.2
+      env:
+        UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }} 
