@@ -14,7 +14,6 @@ jobs:
     strategy:
       matrix:
         unityVersion:
-          - 2019.3.7f1
           - 2019.3.14f1
         targetPlatform:
           - StandaloneWindows64
