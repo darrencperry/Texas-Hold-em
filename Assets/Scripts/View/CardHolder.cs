@@ -1,8 +1,7 @@
-﻿using poker.view;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace poker
+namespace poker.view
 {
     public abstract class CardHolder : MonoBehaviour
     {

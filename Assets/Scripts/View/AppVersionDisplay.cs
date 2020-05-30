@@ -3,13 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class AppVersionDisplay : MonoBehaviour
+namespace poker.view
 {
-
-    void Awake()
+    public class AppVersionDisplay : MonoBehaviour
     {
-        Text text = GetComponent<Text>();
-        if (text != null) 
-            text.text = Application.version;
+
+        void Awake()
+        {
+            Text text = GetComponent<Text>();
+            if (text != null)
+                text.text = Application.version;
+        }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace poker
+﻿namespace poker.view
 {
     public class TableView : CardHolder
     {

@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using UnityEngine;
+
 public static class TransformExtensions
 {
     public static void RemoveAllChildren(this Transform transform)

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace poker
+namespace poker.view
 {
     public class PlayerView : CardHolder
     {
