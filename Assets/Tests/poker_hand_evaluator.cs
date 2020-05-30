@@ -268,6 +268,20 @@ namespace Tests
             Assert.AreEqual(Rank.ThreeOfAKind, hand2.Rank);
             Assert.AreEqual(new Card(CardValue.Five, CardSuit.Clubs).ToString(), new List<Card>(hand2.Kickers).First().ToString());
             Assert.AreEqual(2, hand2.Kickers.Length);
+
+            RankedHand hand3 = _pokerHandEvaluator.EvaluateHand(new Card[]
+            {
+                new Card(CardValue.Seven, CardSuit.Clubs),
+                new Card(CardValue.Seven, CardSuit.Hearts),
+                new Card(CardValue.Seven, CardSuit.Diamonds),
+                new Card(CardValue.King, CardSuit.Clubs),
+                new Card(CardValue.King, CardSuit.Diamonds),
+                new Card(CardValue.King, CardSuit.Hearts),
+                new Card(CardValue.Three, CardSuit.Diamonds),
+            });
+            Assert.AreEqual(Rank.ThreeOfAKind, hand3.Rank);
+            Assert.AreEqual(CardValue.King, hand3.RankCards[0].Value);
+            Assert.AreEqual(2, hand3.Kickers.Length);
         }
 
         // Two pair

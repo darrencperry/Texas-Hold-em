@@ -207,13 +207,15 @@ namespace poker
                     if (_bestPair == null || pair[0].Value > _bestPair[0].Value) _bestPair = pair;
                 }
             }
+
             if (_tripples.Count == 1) _bestTripple = _tripples[0];
-            else
+            else if(_tripples.Count != 0)
             {
                 foreach (Card[] tripple in _tripples)
                 {
                     if (_bestTripple == null || tripple[0].Value > _bestTripple[0].Value) _bestTripple = tripple;
                 }
+                _bestHandCards = _bestTripple.ToList();
             }
 
             // full house
