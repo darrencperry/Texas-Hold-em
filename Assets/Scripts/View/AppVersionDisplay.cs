@@ -9,13 +9,7 @@ public class AppVersionDisplay : MonoBehaviour
     void Awake()
     {
         Text text = GetComponent<Text>();
-        if (text == null) return;
-        text.text = Application.version;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        if (text != null) 
+            text.text = Application.version;
     }
 }
