@@ -7,7 +7,7 @@ using poker;
 using System.Linq;
 using System;
 
-namespace Tests
+namespace tests.editmode
 {
     public class poker_hand_evaluator
     {
