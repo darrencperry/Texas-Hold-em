@@ -16,7 +16,7 @@ jobs:
         unityVersion:
           - 2019.3.14f1
         targetPlatform:
-          - Android 
+          - StandaloneWindows64 
     steps:
     
       # Checkout
@@ -47,6 +47,7 @@ jobs:
       - name: Build project
         uses: webbertakken/unity-builder@v1.0
         with:
+          versioning: Semantic
           unityVersion: ${{ matrix.unityVersion }}
           targetPlatform: ${{ matrix.targetPlatform }}
 
